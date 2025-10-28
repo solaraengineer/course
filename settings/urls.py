@@ -28,4 +28,5 @@ urlpatterns = [
     path('Sub', subscriptions, name='Sub'),
     path('success', success, name='success'),
     path('create-checkout-session/', create_checkout_session, name='create-checkout-session'),
+    path('settings', settings, name='settings'),
 ]

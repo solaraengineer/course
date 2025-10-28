@@ -25,6 +25,7 @@
                 </div>
                 <p>Perfect for those starting their coding journey. Learn the fundamentals.</p>
                 <ul>
+                    <li><span>Inlucds all benefits and acces to contet from other earlier courses/span></li>
                     <li><span>HTML & CSS Basics</span></li>
                     <li><span>JavaScript Fundamentals</span></li>
                     <li><span>Python Introduction</span></li>
@@ -32,6 +33,7 @@
                     <li><span>Community Support</span></li>
                 </ul>
                 <button id="beginner-checkout">Start Learning</button>
+                <button>Learn more here</button>
             </div>
 
             <div class="plan">
@@ -42,6 +44,7 @@
                 </div>
                 <p>Build real-world projects and strengthen your development skills.</p>
                 <ul>
+                    <li><span>Inlucds all benefits and acces to contet from other earlier courses/span></li>
                     <li><span>Django Web Development</span></li>
                     <li><span>Advanced JavaScript & ES6+</span></li>
                     <li><span>OpenCV Computer Vision</span></li>
@@ -50,6 +53,7 @@
                     <li><span>Project Portfolio Building</span></li>
                 </ul>
                 <button>Level Up</button>
+                <button>Learn more here</button>
             </div>
 
             <div class="plan recommended">
@@ -61,6 +65,7 @@
                 </div>
                 <p>Master advanced concepts and build production-ready applications.</p>
                 <ul>
+                    <li><span>Inlucds all benefits and acces to contet from other earlier courses/span></li>
                     <li><span>Full-Stack Django + React</span></li>
                     <li><span>Advanced Python & OpenCV</span></li>
                     <li><span>Go Backend Development</span></li>
@@ -70,6 +75,7 @@
                     <li><span>1-on-1 Mentorship Sessions</span></li>
                 </ul>
                 <button>Go Advanced</button>
+                <button>Learn more here</button>
             </div>
 
             <div class="plan">
@@ -80,6 +86,7 @@
                 </div>
                 <p>Become an industry expert with enterprise-level skills and architecture.</p>
                 <ul>
+                    <li><span>Inlucds all benefits and acces to contet from other earlier courses/span></li>
                     <li><span>System Architecture & Design</span></li>
                     <li><span>Microservices with Go</span></li>
                     <li><span>Advanced Django Optimization</span></li>
@@ -90,6 +97,7 @@
                     <li><span>Lifetime Access & Updates</span></li>
                 </ul>
                 <button>Master Level</button>
+                <button>Learn more here</button>
             </div>
         </div>
 
@@ -101,8 +109,6 @@
                 <span class="tech-tag">OpenCV</span>
                 <span class="tech-tag">JavaScript</span>
                 <span class="tech-tag">HTML/CSS</span>
-                <span class="tech-tag">Go</span>
-                <span class="tech-tag">React</span>
                 <span class="tech-tag">PostgreSQL</span>
                 <span class="tech-tag">Git</span>
                 <span class="tech-tag">AWS</span>
@@ -113,10 +119,9 @@
     </div>
 
     <script>
-        // Initialize Stripe
         const stripe = Stripe('pk_test_51SKj9b6RgjVGr3DczKkpVkObtXE2QTg4nbZggk9R2HnbSIa4jqQO0nw8NMF3GMY1B4phnaufKp05mV9VkU8100pg00C5VAwSma');
 
-        // Get CSRF token
+
         function getCookie(name) {
             let cookieValue = null;
             if (document.cookie && document.cookie !== '') {
@@ -132,7 +137,6 @@
             return cookieValue;
         }
 
-        // Beginner checkout button
         document.getElementById('beginner-checkout').addEventListener('click', function() {
             fetch('/create-checkout-session/', {
                 method: 'POST',
@@ -155,7 +159,7 @@
             });
         });
 
-        // Add smooth hover effects
+
         const plans = document.querySelectorAll('.plan');
 
         plans.forEach(plan => {
@@ -164,11 +168,10 @@
             });
         });
 
-        // Button click animation
+
         const buttons = document.querySelectorAll('button');
         buttons.forEach(btn => {
             btn.addEventListener('click', function(e) {
-                // Create ripple effect
                 const ripple = document.createElement('span');
                 const rect = this.getBoundingClientRect();
                 const size = Math.max(rect.width, rect.height);
@@ -193,7 +196,7 @@
             });
         });
 
-        // Add CSS animation for ripple
+
         const style = document.createElement('style');
         style.textContent = `
             @keyframes ripple {
@@ -205,7 +208,7 @@
         `;
         document.head.appendChild(style);
 
-        // Tech tag hover effects
+
         const techTags = document.querySelectorAll('.tech-tag');
         techTags.forEach(tag => {
             tag.addEventListener('mouseenter', function() {

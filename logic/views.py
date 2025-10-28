@@ -83,6 +83,10 @@ def home(request):
         "reg_form": RegistrationForm(),
         "login_form": LoginForm(),
     })
+def settings(request):
+    return render(request, "settings.html", {
+        "update_form": UpdateForm(),
+    })
 
 
 def dash(request):

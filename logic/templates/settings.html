@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="{% static 'settings.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="nav-brand">MyApp</a>
+            <ul class="nav-links">
+                <li><a href="/dash">Dashboard</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/settings">Settings</a></li>
+                <li><a href="/Sub">Subscriptions</a></li>
+            </ul>
+            <div class="nav-user">
+                <div class="nav-avatar">{{ user.username|slice:":2"|upper }}</div>
+                <span>{{ user.username }}</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="info-card">
+            <h2>Update Your Information</h2>
+
+            <form id="Update" method="POST" action="/Update">
+                {% csrf_token %}
+                {{ update_form.as_p }}
+                <button type="submit">Update Profile</button>
+            </form>
+
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        {% if 'Update' in message.extra_tags %}
+                            <p class="message {{ message.tags }}">{{ message }}</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

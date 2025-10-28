@@ -158,6 +158,7 @@
             font-size: 0.95rem;
         }
 
+
         .plan ul li::before {
             content: '✓';
             display: flex;
