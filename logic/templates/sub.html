@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Pricing</title>
-
     <link rel="stylesheet" href="{% static 'style.css' %}">
-    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <div class="container">
@@ -17,6 +15,7 @@
         </div>
 
         <div class="plans">
+            <!-- BEGINNER PLAN -->
             <div class="plan">
                 <h4>Beginner</h4>
                 <div class="price">
@@ -25,17 +24,22 @@
                 </div>
                 <p>Perfect for those starting their coding journey. Learn the fundamentals.</p>
                 <ul>
-                    <li><span>Inlucds all benefits and acces to contet from other earlier courses/span></li>
+                    <li><span>Includes all benefits and access to content from other earlier courses</span></li>
                     <li><span>HTML & CSS Basics</span></li>
                     <li><span>JavaScript Fundamentals</span></li>
                     <li><span>Python Introduction</span></li>
                     <li><span>Git & GitHub Basics</span></li>
                     <li><span>Community Support</span></li>
                 </ul>
-                <button id="beginner-checkout">Start Learning</button>
+                <form action="{% url 'create-checkout-session' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="course_tier" value="beginner">
+                    <button type="submit">Start Learning</button>
+                </form>
                 <button>Learn more here</button>
             </div>
 
+            <!-- INTERMEDIATE PLAN -->
             <div class="plan">
                 <h4>Intermediate</h4>
                 <div class="price">
@@ -44,7 +48,7 @@
                 </div>
                 <p>Build real-world projects and strengthen your development skills.</p>
                 <ul>
-                    <li><span>Inlucds all benefits and acces to contet from other earlier courses/span></li>
+                    <li><span>Includes all benefits and access to content from other earlier courses</span></li>
                     <li><span>Django Web Development</span></li>
                     <li><span>Advanced JavaScript & ES6+</span></li>
                     <li><span>OpenCV Computer Vision</span></li>
@@ -52,10 +56,15 @@
                     <li><span>REST APIs & Integration</span></li>
                     <li><span>Project Portfolio Building</span></li>
                 </ul>
-                <button>Level Up</button>
+                <form action="{% url 'create-checkout-session' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="course_tier" value="intermediate">
+                    <button type="submit">Level Up</button>
+                </form>
                 <button>Learn more here</button>
             </div>
 
+            <!-- ADVANCED PLAN -->
             <div class="plan recommended">
                 <span class="badge">Most Popular</span>
                 <h4>Advanced</h4>
@@ -65,7 +74,7 @@
                 </div>
                 <p>Master advanced concepts and build production-ready applications.</p>
                 <ul>
-                    <li><span>Inlucds all benefits and acces to contet from other earlier courses/span></li>
+                    <li><span>Includes all benefits and access to content from other earlier courses</span></li>
                     <li><span>Full-Stack Django + React</span></li>
                     <li><span>Advanced Python & OpenCV</span></li>
                     <li><span>Go Backend Development</span></li>
@@ -74,19 +83,24 @@
                     <li><span>Authentication & Security</span></li>
                     <li><span>1-on-1 Mentorship Sessions</span></li>
                 </ul>
-                <button>Go Advanced</button>
+                <form action="{% url 'create-checkout-session' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="course_tier" value="advanced">
+                    <button type="submit">Go Advanced</button>
+                </form>
                 <button>Learn more here</button>
             </div>
 
+            <!-- SENIOR PLAN -->
             <div class="plan">
                 <h4>Senior</h4>
                 <div class="price">
-                    <h2 class="price-dyn">249$ </h2>
+                    <h2 class="price-dyn">249$</h2>
                     <span>/ course</span>
                 </div>
                 <p>Become an industry expert with enterprise-level skills and architecture.</p>
                 <ul>
-                    <li><span>Inlucds all benefits and acces to contet from other earlier courses/span></li>
+                    <li><span>Includes all benefits and access to content from other earlier courses</span></li>
                     <li><span>System Architecture & Design</span></li>
                     <li><span>Microservices with Go</span></li>
                     <li><span>Advanced Django Optimization</span></li>
@@ -96,7 +110,11 @@
                     <li><span>Career Coaching & Interview Prep</span></li>
                     <li><span>Lifetime Access & Updates</span></li>
                 </ul>
-                <button>Master Level</button>
+                <form action="{% url 'create-checkout-session' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="course_tier" value="senior">
+                    <button type="submit">Master Level</button>
+                </form>
                 <button>Learn more here</button>
             </div>
         </div>
@@ -117,104 +135,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        const stripe = Stripe('pk_test_51SKj9b6RgjVGr3DczKkpVkObtXE2QTg4nbZggk9R2HnbSIa4jqQO0nw8NMF3GMY1B4phnaufKp05mV9VkU8100pg00C5VAwSma');
-
-
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
-
-        document.getElementById('beginner-checkout').addEventListener('click', function() {
-            fetch('/create-checkout-session/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                }
-            })
-            .then(response => response.json())
-            .then(session => {
-                return stripe.redirectToCheckout({ sessionId: session.id });
-            })
-            .then(result => {
-                if (result.error) {
-                    alert(result.error.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        });
-
-
-        const plans = document.querySelectorAll('.plan');
-
-        plans.forEach(plan => {
-            plan.addEventListener('mouseenter', function() {
-                this.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-            });
-        });
-
-
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                const rect = this.getBoundingClientRect();
-                const size = Math.max(rect.width, rect.height);
-                const x = e.clientX - rect.left - size / 2;
-                const y = e.clientY - rect.top - size / 2;
-
-                ripple.style.width = ripple.style.height = size + 'px';
-                ripple.style.left = x + 'px';
-                ripple.style.top = y + 'px';
-                ripple.style.position = 'absolute';
-                ripple.style.borderRadius = '50%';
-                ripple.style.background = 'rgba(255, 255, 255, 0.5)';
-                ripple.style.transform = 'scale(0)';
-                ripple.style.animation = 'ripple 0.6s ease-out';
-                ripple.style.pointerEvents = 'none';
-
-                this.style.position = 'relative';
-                this.style.overflow = 'hidden';
-                this.appendChild(ripple);
-
-                setTimeout(() => ripple.remove(), 600);
-            });
-        });
-
-
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-
-
-        const techTags = document.querySelectorAll('.tech-tag');
-        techTags.forEach(tag => {
-            tag.addEventListener('mouseenter', function() {
-                this.style.cursor = 'pointer';
-            });
-        });
-    </script>
 </body>
 </html>

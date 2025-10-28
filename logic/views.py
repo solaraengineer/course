@@ -138,15 +138,31 @@ def Update(request):
 def create_checkout_session(request):
     if request.method == 'POST':
         try:
+            course_tier = request.POST.get('course_tier')
+
+            prices = {
+                'beginner': {'amount': 4900, 'name': 'Beginner Course', 'display_price': '49.00'},
+                'intermediate': {'amount': 9900, 'name': 'Intermediate Course', 'display_price': '99.00'},
+                'advanced': {'amount': 14900, 'name': 'Advanced Course', 'display_price': '149.00'},
+                'senior': {'amount': 24900, 'name': 'Senior Course', 'display_price': '249.00'}
+            }
+
+            selected_course = prices.get(course_tier, prices['beginner'])
+
+
+            request.session['plan_name'] = selected_course['name']
+            request.session['amount'] = selected_course['display_price']
+            request.session['plan_tier'] = course_tier
+
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[{
                     'price_data': {
                         'currency': 'usd',
                         'product_data': {
-                            'name': 'Beginner Course',
+                            'name': selected_course['name'],
                         },
-                        'unit_amount': 500,
+                        'unit_amount': selected_course['amount'],
                     },
                     'quantity': 1,
                 }],
@@ -154,25 +170,28 @@ def create_checkout_session(request):
                 success_url="http://127.0.0.1:8000/success?session_id={CHECKOUT_SESSION_ID}",
                 cancel_url="http://127.0.0.1:8000/sub",
             )
-            return JsonResponse({'id': session.id})
+
+            return redirect(session.url)
+
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=400)
 
 
 def success(request):
-    session_id = request.GET.get('session_id')
+    # Get data from session
+    plan_name = request.session.get('plan_name', 'Beginner Course')
+    amount = request.session.get('amount', '49.00')
+    plan_tier = request.session.get('plan_tier', 'beginner')
 
-    if session_id and request.user.is_authenticated:
-        try:
-            session = stripe.checkout.Session.retrieve(session_id)
-            if session.payment_status == 'paid':
-                request.user.account_type = 'Beginner'
-                request.user.save()
-        except:
-            pass
+    # Clear session data after using it
+    request.session.pop('plan_name', None)
+    request.session.pop('amount', None)
+    request.session.pop('plan_tier', None)
 
     context = {
-        'plan_name': 'Beginner',
-        'amount': '5.00',
+        'plan_name': plan_name,
+        'amount': amount,
+        'user': request.user
     }
+
     return render(request, 'success.html', context)
