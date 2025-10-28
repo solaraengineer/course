@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login & Register</title>
+    <link rel="stylesheet" href="{% static 'css.css' %}">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-box" id="register">
+        <h2>Register</h2>
+        <form id="registerForm" method="POST" action="/register">
+            {% csrf_token %}
+            {{ reg_form.as_p }}
+            <div class="g-recaptcha"
+              data-sitekey="6LeTq9crAAAAAIWCY7bxqcLayd5bBg9zqig27nwN"></div>
+
+            <label for="terms" class="checkbox-label">
+                <input id="terms" type="checkbox" required />
+                I agree to the terms.
+            </label>
+
+            <button type="submit" id="registerBtn">Register</button>
+        </form>
+        {% if messages %}
+    {% for message in messages %}
+        {% if 'register' in message.extra_tags %}
+            <p class="{{ message.tags }}">{{ message }}</p>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+    </div>
+
+    <div class="login-box" id="login">
+        <h2>Login</h2>
+        <form id="loginForm" method="POST" action="/login">
+            {% csrf_token %}
+            {{ login_form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+        {% if messages %}
+    {% for message in messages %}
+        {% if 'login' in message.extra_tags %}
+            <p class="{{ message.tags }}">{{ message }}</p>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+    </div>
+</div>
+<a class="terms-link" href="https://fwaeh.cloud/terms" target="_blank">Read our terms here</a>
+</body>
+</html>

@@ -1,0 +1,136 @@
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.plans {
+  display: flex;
+  padding: 20px;
+  background-color: #f5f5f5;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.plan {
+  flex-basis: 250px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-sizing: border-box;
+}
+
+.plan span,
+.plan p {
+  font-size: 14px;
+}
+
+.plan h4,
+.plan h2 {
+  color: #02044a;
+}
+
+.plan h4 {
+  font-weight: 500;
+  letter-spacing: -0.5px;
+}
+
+.plan h2 {
+  font-weight: 700;
+  font-size: 36px;
+  letter-spacing: -1.5px;
+}
+
+.plan p {
+  color: #515282;
+  margin: 10px 0;
+  line-height: 140%;
+}
+
+.plan .price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plan .price span {
+  color: #999;
+  font-size: 12px;
+}
+
+.plan .price span::before {
+  content: "/";
+  margin-right: 4px;
+}
+
+.plan ul {
+  color: #02044a;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-grow: 1;
+}
+
+.plan ul > li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.plan ul > li::before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 14px;
+  height: 14px;
+  content: "✓";
+  font-size: 10px;
+  color: white;
+  background-color: #aeafc5;
+  border-radius: 50%;
+}
+
+.plan button {
+  background: none;
+  color: hsl(260, 54%, 45%);
+  border: 1.5px solid #6032e2;
+  padding: 10px 25px;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.plan button:hover {
+  cursor: pointer;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.plan.recommended {
+  background-color: #5f30e2;
+  color: white;
+}
+
+.plan.recommended h4,
+.plan.recommended h2 {
+  color: white;
+}
+
+.plan.recommended p {
+  color: #c1acff;
+}
+
+.plan.recommended ul {
+  color: #dadada;
+}
+
+.plan.recommended ul > li::before {
+  background-color: #b197ff;
+  color: #693de6;
+}
+
+.plan.recommended button {
+  background-color: #fbd4c7;
+}
