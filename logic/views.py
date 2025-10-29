@@ -10,9 +10,10 @@ import requests
 
 from logic.models import User
 from logic.forms import RegistrationForm, LoginForm, UpdateForm
-from json_response import JsonResponse  # your custom JsonResponse helper
+from json_response import JsonResponse
+from django.http import HttpResponse
 
-# Stripe config
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -107,12 +108,16 @@ def subscriptions(request):
 def success(request):
     return render(request, "success.html", {})
 
+def more(request):
+    return render(request, "more.html", {})
+
 
 def info(request):
     user = request.user
     return render(request, "info.html", {
         "username": user.username if user.is_authenticated else None,
         "email": user.email if user.is_authenticated else None,
+        'plan_name': user.account_plan.name if user.is_authenticated else None,
     })
 
 
@@ -134,6 +139,38 @@ def Update(request):
 
     return render(request, 'dash.html', {'form': form})
 
+
+@csrf_exempt
+def stripe_webhook(request):
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+
+    try:
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
+        )
+    except ValueError as e:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+
+        return HttpResponse(status=400)
+
+
+    if event['type'] == 'checkout.session.completed':
+        session = event['data']['object']
+
+
+        customer_email = session.get('customer_email')
+
+
+        plan_tier = session.get('metadata', {}).get('plan_tier', 'beginner')
+
+
+
+        print(f"Payment successful for {customer_email} - Plan: {plan_tier}")
+
+    return HttpResponse(status=200)
 
 def create_checkout_session(request):
     if request.method == 'POST':
@@ -167,6 +204,11 @@ def create_checkout_session(request):
                     'quantity': 1,
                 }],
                 mode='payment',
+                customer_email=request.user.email if request.user.is_authenticated else None,
+                metadata={
+                    'plan_tier': course_tier,
+                    'user_id': request.user.id if request.user.is_authenticated else None,
+                },
                 success_url="https://course-hsuk.onrender.com/success?session_id={CHECKOUT_SESSION_ID}",
                 cancel_url="https://course-hsuk.onrender.com/sub",
             )
@@ -178,15 +220,9 @@ def create_checkout_session(request):
 
 
 def success(request):
-    # Get data from session
     plan_name = request.session.get('plan_name', 'Beginner Course')
     amount = request.session.get('amount', '49.00')
     plan_tier = request.session.get('plan_tier', 'beginner')
-
-    # Clear session data after using it
-    request.session.pop('plan_name', None)
-    request.session.pop('amount', None)
-    request.session.pop('plan_tier', None)
 
     context = {
         'plan_name': plan_name,
@@ -195,3 +231,5 @@ def success(request):
     }
 
     return render(request, 'success.html', context)
+
+

@@ -28,5 +28,7 @@ urlpatterns = [
     path('Sub', subscriptions, name='Sub'),
     path('success', success, name='success'),
     path('create-checkout-session/', create_checkout_session, name='create-checkout-session'),
+    path('webhook/stripe/', stripe_webhook, name='stripe-webhook'),
     path('settings', settings, name='settings'),
+    path('more', more, name='more'),
 ]

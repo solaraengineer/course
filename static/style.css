@@ -174,7 +174,7 @@
             flex-shrink: 0;
         }
 
-        .plan button {
+        .plan button, a {
             width: 100%;
             padding: 1rem;
             background: rgba(124, 58, 237, 0.2);
@@ -195,7 +195,7 @@
             transform: translateY(-2px);
         }
 
-        .plan.recommended button {
+        .plan.recommended button, a {
             background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
             border: none;
             color: #fff;
