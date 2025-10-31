@@ -15,6 +15,8 @@ import os
 
 from dotenv import load_dotenv
 
+from course.course.settings.settings import RECAPTCHA_SECRET_KEY
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +31,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA_SITE_KEY')
 STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_SECRET_KEY')
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')

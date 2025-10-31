@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Tier Course</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #000000 0%, #0a0e27 35%, #1a1a3e 65%, #2d1b4e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e9d5ff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: rgba(196, 181, 253, 0.7);
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e9d5ff;
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 4px solid #7c3aed;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #7c3aed, #a78bfa);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            background: rgba(20, 15, 35, 0.9);
+            border-color: rgba(124, 58, 237, 0.7);
+            box-shadow: 0 15px 50px rgba(124, 58, 237, 0.4);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-label {
+            font-size: 0.9rem;
+            color: rgba(167, 139, 250, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e9d5ff;
+            margin-bottom: 0.8rem;
+        }
+
+        .card-description {
+            font-size: 0.95rem;
+            color: rgba(196, 181, 253, 0.6);
+            line-height: 1.5;
+        }
+
+        .card-arrow {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            color: #7c3aed;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .card-arrow {
+            opacity: 1;
+            right: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Free Tier Course 🚀</h1>
+            <p>Master the fundamentals with our comprehensive lessons and projects</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Projects</h2>
+            <div class="grid">
+                <a href="/beginner/pro/1" class="card">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-label">Project 01</div>
+                    <div class="card-title">Portfolio Website</div>
+                    <div class="card-description">Build a stunning portfolio website from scratch using HTML, CSS, and JavaScript</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/beginner/pro/2" class="card">
+                    <div class="card-icon">💼</div>
+                    <div class="card-label">Project 02</div>
+                    <div class="card-title">Task Manager App</div>
+                    <div class="card-description">Create a fully functional task manager with local storage and dynamic UI</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/beginner/pro/3" class="card">
+                    <div class="card-icon">🎨</div>
+                    <div class="card-label">Project 03</div>
+                    <div class="card-title">Landing Page Design</div>
+                    <div class="card-description">Design and develop a modern, responsive landing page with animations</div>
+                    <div class="card-arrow">→</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Lessons</h2>
+            <div class="grid">
+                <a href="/beginner/les/1" class="card">
+                    <div class="card-icon">📚</div>
+                    <div class="card-label">Lesson 01</div>
+                    <div class="card-title">HTML Fundamentals</div>
+                    <div class="card-description">Learn the building blocks of web development</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/beginner/les/2" class="card">
+                    <div class="card-icon">🎨</div>
+                    <div class="card-label">Lesson 02</div>
+                    <div class="card-title">CSS Styling Basics</div>
+                    <div class="card-description">Master the art of styling web pages</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/lesson3" class="card">
+                    <div class="card-icon">⚡</div>
+                    <div class="card-label">Lesson 03</div>
+                    <div class="card-title">JavaScript Introduction</div>
+                    <div class="card-description">Add interactivity to your websites</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/lesson4" class="card">
+                    <div class="card-icon">📱</div>
+                    <div class="card-label">Lesson 04</div>
+                    <div class="card-title">Responsive Design</div>
+                    <div class="card-description">Make your sites look great on all devices</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/lesson5" class="card">
+                    <div class="card-icon">🔧</div>
+                    <div class="card-label">Lesson 05</div>
+                    <div class="card-title">Flexbox Layout</div>
+                    <div class="card-description">Build flexible and responsive layouts</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/lesson6" class="card">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-label">Lesson 06</div>
+                    <div class="card-title">CSS Grid System</div>
+                    <div class="card-description">Create complex layouts with ease</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/lesson7" class="card">
+                    <div class="card-icon">✨</div>
+                    <div class="card-label">Lesson 07</div>
+                    <div class="card-title">Animations & Transitions</div>
+                    <div class="card-description">Bring your websites to life</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/lesson8" class="card">
+                    <div class="card-icon">🔄</div>
+                    <div class="card-label">Lesson 08</div>
+                    <div class="card-title">DOM Manipulation</div>
+                    <div class="card-description">Control HTML elements with JavaScript</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/lesson9" class="card">
+                    <div class="card-icon">🎪</div>
+                    <div class="card-label">Lesson 09</div>
+                    <div class="card-title">Event Handling</div>
+                    <div class="card-description">Respond to user interactions</div>
+                    <div class="card-arrow">→</div>
+                </a>
+
+                <a href="/lesson10" class="card">
+                    <div class="card-icon">💾</div>
+                    <div class="card-label">Lesson 10</div>
+                    <div class="card-title">Local Storage</div>
+                    <div class="card-description">Store data in the browser</div>
+                    <div class="card-arrow">→</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

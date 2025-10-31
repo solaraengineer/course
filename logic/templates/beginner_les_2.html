@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Styling Basics - Lesson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #000000 0%, #0a0e27 35%, #1a1a3e 65%, #2d1b4e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 50px;
+            color: #c4b5fd;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: rgba(20, 15, 35, 0.9);
+            border-color: rgba(124, 58, 237, 0.7);
+            transform: translateX(-5px);
+            box-shadow: 0 6px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .lesson-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-label {
+            font-size: 0.9rem;
+            color: rgba(167, 139, 250, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e9d5ff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            color: rgba(196, 181, 253, 0.8);
+        }
+
+        .meta-item span {
+            color: #a78bfa;
+            font-weight: 600;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .main-content {
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .lesson-content h2 {
+            font-size: 2rem;
+            color: #e9d5ff;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.4);
+        }
+
+        .lesson-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .lesson-content h3 {
+            font-size: 1.5rem;
+            color: #c4b5fd;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content p {
+            font-size: 1.05rem;
+            color: rgba(196, 181, 253, 0.8);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-content li {
+            font-size: 1.05rem;
+            color: rgba(196, 181, 253, 0.8);
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .lesson-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #6ee7b7;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            color: #6ee7b7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .tip-box {
+            background: rgba(124, 58, 237, 0.15);
+            border: 2px solid rgba(124, 58, 237, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tip-box h4 {
+            font-size: 1.2rem;
+            color: #a78bfa;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-box p {
+            margin-bottom: 0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .warning-box h4 {
+            font-size: 1.2rem;
+            color: #fca5a5;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .example-box {
+            background: rgba(16, 185, 129, 0.15);
+            border: 2px solid rgba(16, 185, 129, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .example-box h4 {
+            font-size: 1.2rem;
+            color: #6ee7b7;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-card {
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e9d5ff;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.4);
+        }
+
+        .sidebar-item {
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            color: rgba(196, 181, 253, 0.7);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(124, 58, 237, 0.2);
+            color: #e9d5ff;
+        }
+
+        .sidebar-item.active {
+            background: rgba(124, 58, 237, 0.3);
+            color: #e9d5ff;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(124, 58, 237, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7c3aed, #a78bfa);
+            width: 20%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .next-lesson-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: rgba(124, 58, 237, 0.3);
+            border: 2px solid rgba(124, 58, 237, 0.6);
+            border-radius: 15px;
+            color: #e9d5ff;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .next-lesson-btn:hover {
+            background: rgba(124, 58, 237, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .resources-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resources-list li {
+            margin-bottom: 0.8rem;
+        }
+
+        .resources-list a {
+            color: #a78bfa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resources-list a:hover {
+            color: #e9d5ff;
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-title {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .lesson-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/dash" class="back-button">
+            ← Back to Course
+        </a>
+
+        <div class="header">
+            <div class="lesson-icon">🎨</div>
+            <div class="lesson-label">Lesson 02</div>
+            <h1 class="lesson-title">CSS Styling Basics</h1>
+            <div class="lesson-meta">
+                <div class="meta-item">
+                    <span>📖</span> Reading Time: 20 min
+                </div>
+                <div class="meta-item">
+                    <span>📊</span> Beginner
+                </div>
+                <div class="meta-item">
+                    <span>👨‍🏫</span> Solara
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-content">
+                <div class="lesson-content">
+                    <h2>📖 Introduction</h2>
+                    <p>
+                        Now that you understand HTML structure, it's time to make your websites look amazing! CSS (Cascading Style Sheets) is what transforms plain HTML into beautiful, engaging web pages. If HTML is the skeleton, CSS is the skin, clothes, and makeup.
+                    </p>
+                    <p>
+                        In this lesson, we'll dive into the fundamentals of CSS and learn how to style your web pages like a pro. Get ready to bring color, layout, and personality to your websites!
+                    </p>
+
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>Understanding CSS syntax and how it works</li>
+                        <li>Different ways to add CSS to your HTML</li>
+                        <li>CSS selectors and how to target elements</li>
+                        <li>Common CSS properties for styling text and layout</li>
+                        <li>The box model and how spacing works</li>
+                        <li>Colors, fonts, and basic design principles</li>
+                    </ul>
+
+                    <h2>💻 What is CSS?</h2>
+                    <p>
+                        CSS stands for Cascading Style Sheets. It's a language used to describe how HTML elements should be displayed on screen. CSS controls everything visual: colors, fonts, spacing, layout, animations, and more.
+                    </p>
+                    <p>
+                        The "Cascading" part means that styles can inherit and override each other in a specific order - we'll get into that later!
+                    </p>
+
+                    <h3>CSS Syntax</h3>
+                    <p>
+                        CSS consists of rulesets. Each ruleset has a selector (which element to style) and declarations (what styles to apply).
+                    </p>
+                    <div class="code-block">
+                        <code>
+selector {<br>
+&nbsp;&nbsp;property: value;<br>
+&nbsp;&nbsp;another-property: value;<br>
+}
+                        </code>
+                    </div>
+
+                    <div class="example-box">
+                        <h4>✨ Real Example</h4>
+                        <div class="code-block" style="margin: 1rem 0 0 0;">
+                            <code>
+h1 {<br>
+&nbsp;&nbsp;color: purple;<br>
+&nbsp;&nbsp;font-size: 32px;<br>
+&nbsp;&nbsp;text-align: center;<br>
+}
+                            </code>
+                        </div>
+                    </div>
+
+                    <h2>🔗 Adding CSS to HTML</h2>
+                    <p>
+                        There are three ways to add CSS to your HTML pages:
+                    </p>
+
+                    <h3>1. Inline CSS</h3>
+                    <p>
+                        Applied directly to HTML elements using the style attribute. Quick but not recommended for larger projects.
+                    </p>
+                    <div class="code-block">
+                        <code>
+&lt;h1 style="color: blue; font-size: 24px;"&gt;Hello World&lt;/h1&gt;
+                        </code>
+                    </div>
+
+                    <h3>2. Internal CSS</h3>
+                    <p>
+                        Written inside a &lt;style&gt; tag in the HTML head section. Good for single-page styling.
+                    </p>
+                    <div class="code-block">
+                        <code>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;style&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;h1 {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color: blue;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;font-size: 24px;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&lt;/style&gt;<br>
+&lt;/head&gt;
+                        </code>
+                    </div>
+
+                    <h3>3. External CSS (Recommended!)</h3>
+                    <p>
+                        Written in a separate .css file and linked to your HTML. This is the professional way - it keeps your code organized and allows you to reuse styles across multiple pages.
+                    </p>
+                    <div class="code-block">
+                        <code>
+&lt;head&gt;<br>
+&nbsp;&nbsp;&lt;link rel="stylesheet" href="styles.css"&gt;<br>
+&lt;/head&gt;
+                        </code>
+                    </div>
+
+                    <div class="tip-box">
+                        <h4>💡 Best Practice</h4>
+                        <p>
+                            Always use external CSS files for your projects! It makes your code cleaner, easier to maintain, and allows you to apply the same styles across multiple pages. Professional developers almost never use inline or internal CSS.
+                        </p>
+                    </div>
+
+                    <h2>🎯 CSS Selectors</h2>
+                    <p>
+                        Selectors tell CSS which HTML elements to style. Here are the most common ones:
+                    </p>
+
+                    <h3>Element Selector</h3>
+                    <p>Targets all elements of a specific type.</p>
+                    <div class="code-block">
+                        <code>
+p {<br>
+&nbsp;&nbsp;color: white;<br>
+}
+                        </code>
+                    </div>
+
+                    <h3>Class Selector</h3>
+                    <p>Targets elements with a specific class attribute. Use a dot (.) before the class name.</p>
+                    <div class="code-block">
+                        <code>
+.button {<br>
+&nbsp;&nbsp;background-color: purple;<br>
+&nbsp;&nbsp;padding: 10px 20px;<br>
+}<br><br>
+&lt;!-- HTML --&gt;<br>
+&lt;button class="button"&gt;Click Me&lt;/button&gt;
+                        </code>
+                    </div>
+
+                    <h3>ID Selector</h3>
+                    <p>Targets a single element with a specific ID. Use a hash (#) before the ID name.</p>
+                    <div class="code-block">
+                        <code>
+#header {<br>
+&nbsp;&nbsp;background-color: black;<br>
+}<br><br>
+&lt;!-- HTML --&gt;<br>
+&lt;div id="header"&gt;My Header&lt;/div&gt;
+                        </code>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Important Rule</h4>
+                        <p>
+                            IDs should be unique! Only one element on a page should have a specific ID. For styling multiple similar elements, always use classes instead. IDs are best reserved for JavaScript or linking to specific page sections.
+                        </p>
+                    </div>
+
+                    <h2>🎨 Common CSS Properties</h2>
+
+                    <h3>Colors</h3>
+                    <p>CSS supports multiple color formats:</p>
+                    <div class="code-block">
+                        <code>
+/* Named colors */<br>
+color: red;<br>
+background-color: white;<br><br>
+/* Hex codes */<br>
+color: #7c3aed;<br><br>
+/* RGB */<br>
+color: rgb(124, 58, 237);<br><br>
+/* RGBA (with transparency) */<br>
+background-color: rgba(124, 58, 237, 0.5);
+                        </code>
+                    </div>
+
+                    <h3>Typography</h3>
+                    <div class="code-block">
+                        <code>
+font-family: Arial, sans-serif;<br>
+font-size: 16px;<br>
+font-weight: bold;<br>
+text-align: center;<br>
+line-height: 1.6;<br>
+letter-spacing: 1px;
+                        </code>
+                    </div>
+
+                    <h3>Spacing</h3>
+                    <div class="code-block">
+                        <code>
+margin: 20px;           /* Space outside element */<br>
+padding: 10px;          /* Space inside element */<br>
+margin-top: 15px;       /* Specific side */<br>
+padding: 10px 20px;     /* Top/bottom left/right */
+                        </code>
+                    </div>
+
+                    <h2>📦 The Box Model</h2>
+                    <p>
+                        Every HTML element is essentially a box. The CSS box model describes how these boxes are sized and spaced. From inside out, each box consists of:
+                    </p>
+                    <ul>
+                        <li><strong>Content</strong> - The actual text or images</li>
+                        <li><strong>Padding</strong> - Space between content and border</li>
+                        <li><strong>Border</strong> - A line around the padding</li>
+                        <li><strong>Margin</strong> - Space outside the border</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <h4>✨ Box Model Example</h4>
+                        <div class="code-block" style="margin: 1rem 0 0 0;">
+                            <code>
+.box {<br>
+&nbsp;&nbsp;width: 200px;<br>
+&nbsp;&nbsp;padding: 20px;<br>
+&nbsp;&nbsp;border: 2px solid purple;<br>
+&nbsp;&nbsp;margin: 10px;<br>
+}<br><br>
+/* Total width = 200 + (20*2) + (2*2) + (10*2) = 264px */
+                            </code>
+                        </div>
+                    </div>
+
+                    <div class="tip-box">
+                        <h4>💡 Pro Tip</h4>
+                        <p>
+                            Use "box-sizing: border-box;" on all elements to make width calculations easier. This includes padding and border in the width calculation, making layouts much more predictable!
+                        </p>
+                    </div>
+
+                    <h2>🎨 Styling Borders and Backgrounds</h2>
+                    <div class="code-block">
+                        <code>
+/* Borders */<br>
+border: 2px solid black;<br>
+border-radius: 10px;           /* Rounded corners */<br>
+border-top: 3px dashed red;<br><br>
+/* Backgrounds */<br>
+background-color: purple;<br>
+background-image: url('image.jpg');<br>
+background-size: cover;
+                        </code>
+                    </div>
+
+                    <h2>🔥 Practice Exercise</h2>
+                    <p>
+                        Create a simple card component using everything you've learned:
+                    </p>
+                    <ul>
+                        <li>Make a div with class "card"</li>
+                        <li>Give it a background color, padding, and rounded corners</li>
+                        <li>Add a heading and paragraph inside</li>
+                        <li>Style the heading with a different color and larger font</li>
+                        <li>Style the paragraph with good line-height for readability</li>
+                        <li>Add a border and some margin around the card</li>
+                    </ul>
+
+                    <div class="example-box">
+                        <h4>✨ Challenge Solution Example</h4>
+                        <div class="code-block" style="margin: 1rem 0 0 0;">
+                            <code>
+.card {<br>
+&nbsp;&nbsp;background-color: white;<br>
+&nbsp;&nbsp;padding: 30px;<br>
+&nbsp;&nbsp;border-radius: 15px;<br>
+&nbsp;&nbsp;border: 2px solid #7c3aed;<br>
+&nbsp;&nbsp;margin: 20px;<br>
+&nbsp;&nbsp;box-shadow: 0 4px 10px rgba(0,0,0,0.2);<br>
+}<br><br>
+.card h2 {<br>
+&nbsp;&nbsp;color: #7c3aed;<br>
+&nbsp;&nbsp;font-size: 24px;<br>
+&nbsp;&nbsp;margin-bottom: 10px;<br>
+}<br><br>
+.card p {<br>
+&nbsp;&nbsp;color: #333;<br>
+&nbsp;&nbsp;line-height: 1.6;<br>
+}
+                            </code>
+                        </div>
+                    </div>
+
+                    <h2>🎓 Key Takeaways</h2>
+                    <ul>
+                        <li>CSS controls all visual styling on websites</li>
+                        <li>Always use external CSS files for clean, maintainable code</li>
+                        <li>Classes are for styling multiple elements, IDs for unique elements</li>
+                        <li>The box model consists of content, padding, border, and margin</li>
+                        <li>Color, typography, and spacing are fundamental to good design</li>
+                        <li>Practice is key - experiment with different properties!</li>
+                    </ul>
+
+                    <h2>📚 What's Next?</h2>
+                    <p>
+                        Awesome job! You now know the fundamentals of CSS styling. In the next lesson, we'll dive into JavaScript and learn how to make your websites interactive. Things are about to get even more exciting!
+                    </p>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <div class="sidebar-title">Your Progress</div>
+                    <div class="sidebar-item active">📖 Introduction</div>
+                    <div class="sidebar-item">🎯 What You'll Learn</div>
+                    <div class="sidebar-item">💻 CSS Basics</div>
+                    <div class="sidebar-item">🔗 Adding CSS</div>
+                    <div class="sidebar-item">🎯 Selectors</div>
+                    <div class="sidebar-item">📦 Box Model</div>
+                    <div class="sidebar-item">🔥 Practice</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <div class="sidebar-title">Resources</div>
+                    <ul class="resources-list">
+                        <li><a href="#">📄 CSS Cheat Sheet</a></li>
+                        <li><a href="#">🎨 Color Picker Tool</a></li>
+                        <li><a href="#">📖 MDN CSS Docs</a></li>
+                        <li><a href="#">💬 Join Discussion</a></li>
+                    </ul>
+                    <a href="lesson3.html" class="next-lesson-btn">
+                        Next Lesson: JavaScript Intro →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

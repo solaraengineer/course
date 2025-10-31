@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website - Summary</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #000000 0%, #0a0e27 35%, #1a1a3e 65%, #2d1b4e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-button, .videos-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 50px;
+            color: #c4b5fd;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover, .videos-button:hover {
+            background: rgba(20, 15, 35, 0.9);
+            border-color: rgba(124, 58, 237, 0.7);
+            box-shadow: 0 6px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
+
+        .videos-button {
+            background: rgba(124, 58, 237, 0.3);
+            border-color: rgba(124, 58, 237, 0.6);
+        }
+
+        .videos-button:hover {
+            background: rgba(124, 58, 237, 0.5);
+            transform: scale(1.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-label {
+            font-size: 0.9rem;
+            color: rgba(167, 139, 250, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e9d5ff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .summary-content {
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            line-height: 1.8;
+        }
+
+        .summary-content h2 {
+            font-size: 2rem;
+            color: #e9d5ff;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.4);
+        }
+
+        .summary-content h3 {
+            font-size: 1.5rem;
+            color: #c4b5fd;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .summary-content p {
+            font-size: 1.05rem;
+            color: rgba(196, 181, 253, 0.8);
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-content li {
+            font-size: 1.05rem;
+            color: rgba(196, 181, 253, 0.8);
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .summary-content li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #7c3aed;
+            font-weight: 700;
+        }
+
+        .highlight-box {
+            background: rgba(124, 58, 237, 0.15);
+            border: 2px solid rgba(124, 58, 237, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-box h4 {
+            font-size: 1.3rem;
+            color: #a78bfa;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .summary-content {
+                padding: 1.5rem;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-buttons">
+            <a href="/dash" class="back-button">
+                ← Back to Dashboard
+            </a>
+            <a href="/beginner/pro/3" class="videos-button">
+                🎬 Watch Videos
+            </a>
+        </div>
+
+        <div class="header">
+            <div class="project-label">Project 01 - Summary</div>
+            <h1 class="project-title">Portfolio Website</h1>
+        </div>
+
+        <div class="summary-content">
+            <h2>📋 Project Overview</h2>
+            <p>
+                In this comprehensive project, you'll build a professional portfolio website from scratch. This project will teach you the fundamentals of web development while creating a real-world project you can use to showcase your skills.
+            </p>
+
+            <h3>🎯 What You'll Learn</h3>
+            <ul>
+                <li>Setting up a professional development environment</li>
+                <li>Writing semantic HTML5 markup for better structure</li>
+                <li>Advanced CSS styling techniques and layouts</li>
+                <li>Creating responsive designs that work on all devices</li>
+                <li>Adding smooth animations and transitions</li>
+                <li>JavaScript fundamentals for interactivity</li>
+                <li>Deploying your website to the internet</li>
+            </ul>
+
+            <h3>🛠️ Technologies Used</h3>
+            <ul>
+                <li>HTML5 for content structure</li>
+                <li>CSS3 for styling and animations</li>
+                <li>JavaScript for interactive features</li>
+                <li>Flexbox and CSS Grid for layouts</li>
+                <li>Git for version control</li>
+                <li>GitHub Pages or Netlify for deployment</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4>💡 Key Takeaways</h4>
+                <p>
+                    By the end of this project, you'll have a fully functional portfolio website that you can customize and use to showcase your work. You'll understand how HTML, CSS, and JavaScript work together to create modern web experiences, and you'll have hands-on experience with deployment and hosting.
+                </p>
+            </div>
+
+            <h3>📚 Project Structure</h3>
+            <p>
+                The project is divided into 6 comprehensive video lessons, each building on the previous one. You'll start with planning and setup, move through building the HTML structure and styling it with CSS, then add responsive design and interactivity before finally deploying your creation to the web.
+            </p>
+
+            <div class="highlight-box">
+                <h4>⚡ Prerequisites</h4>
+                <p>
+                    This project is perfect for beginners! While no prior experience is required, having a basic understanding of HTML and CSS will help you follow along more easily. Don't worry if you're completely new though - everything is explained step by step.
+                </p>
+            </div>
+
+            <h3>🚀 Next Steps</h3>
+            <p>
+                Ready to get started? Head back to the video lessons and begin with Part 1. Take your time with each section, and don't hesitate to pause and experiment with the code as you go. The best way to learn is by doing!
+            </p>
+        </div>
+    </div>
+</body>
+</html>

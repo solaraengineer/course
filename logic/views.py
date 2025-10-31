@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django_ratelimit.decorators import ratelimit
 import requests
-
+from django.conf import settings
 from logic.models import User
 from logic.forms import RegistrationForm, LoginForm, UpdateForm
 from json_response import JsonResponse
@@ -45,7 +45,6 @@ def register(request):
             cd = form.cleaned_data
             username, email, password = cd["username"], cd["email"], cd["password"]
 
-            # reCAPTCHA verification
             recaptcha_token = request.POST.get("g-recaptcha-response")
             verify_url = "https://www.google.com/recaptcha/api/siteverify"
             payload = {"secret": settings.RECAPTCHA_SECRET_KEY, "response": recaptcha_token}
@@ -84,10 +83,23 @@ def home(request):
         "reg_form": RegistrationForm(),
         "login_form": LoginForm(),
     })
-def settings(request):
+def Fsettings(request):
     return render(request, "settings.html", {
         "update_form": UpdateForm(),
     })
+
+def preview(request):
+    return render(request, "preview.html", {})
+
+def begineer(request):
+    return render(request, "begineer.html", {})
+
+def inter(request):
+    return render(request, "inter.html", {})
+def adv(request):
+    return render(request, "adv.html", {})
+def sen(request):
+    return render(request, "sen.html", {})
 
 
 def dash(request):
@@ -97,12 +109,27 @@ def dash(request):
             "update_form": UpdateForm(),
             "username": user.username,
             "email": user.email,
+            "account_type": user.account_type,
         })
     return redirect('home')
 
+def dynamic_lesson_view(request, tier, number):
+    template = f"{tier}_lesson_{number}.html"
+    return render(request, template)
+
+def dynamic_project_view(request, tier, number):
+    template = f"{tier}_pro_{number}.html"
+    return render(request, template)
+
+def dynamic_summary_view(request, tier, number):
+    template = f"{tier}_sum_{number}.html"
+    return render(request, template)
 
 def subscriptions(request):
     return render(request, "sub.html", {})
+
+def begineer(request):
+    return render(request, "begineer.html", {})
 
 
 def success(request):
@@ -111,13 +138,26 @@ def success(request):
 def more(request):
     return render(request, "more.html", {})
 
+def mark(request):
+    return render(request, "mark.html", {})
+
+def terms(request):
+    return render(request, "terms.html", {})
+
+def dynamic_content(request, tier, type, number):
+    file_path = f"{tier}_{type}_{number}.html"
+    try:
+        return render(request, file_path)
+    except FileNotFoundError:
+        messages.error(request, "File not found.", extra_tags="register")
+
 
 def info(request):
     user = request.user
-    return render(request, "info.html", {
+    return render(request, "dash.html", {
         "username": user.username if user.is_authenticated else None,
         "email": user.email if user.is_authenticated else None,
-        'plan_name': user.account_plan.name if user.is_authenticated else None,
+        'account_type': user.account_type.name if user.is_authenticated else None,
     })
 
 
@@ -147,28 +187,22 @@ def stripe_webhook(request):
     endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
 
     try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
-        )
-    except ValueError as e:
+        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+    except (ValueError, stripe.error.SignatureVerificationError):
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
-
-        return HttpResponse(status=400)
-
 
     if event['type'] == 'checkout.session.completed':
         session = event['data']['object']
-
-
         customer_email = session.get('customer_email')
-
-
         plan_tier = session.get('metadata', {}).get('plan_tier', 'beginner')
 
-
-
-        print(f"Payment successful for {customer_email} - Plan: {plan_tier}")
+        try:
+            user = User.objects.get(email=customer_email)
+            user.account_type = plan_tier
+            user.save()
+            print(f"[Webhook] Set {user.email} plan to  {plan_tier}")
+        except User.DoesNotExist:
+            print(f"[Webhook] No user found for email {customer_email}")
 
     return HttpResponse(status=200)
 
@@ -178,7 +212,7 @@ def create_checkout_session(request):
             course_tier = request.POST.get('course_tier')
 
             prices = {
-                'beginner': {'amount': 4900, 'name': 'Beginner Course', 'display_price': '49.00'},
+                'beginner': {'amount': 1000, 'name': 'Beginner Course', 'display_price': '49.00'},
                 'intermediate': {'amount': 9900, 'name': 'Intermediate Course', 'display_price': '99.00'},
                 'advanced': {'amount': 14900, 'name': 'Advanced Course', 'display_price': '149.00'},
                 'senior': {'amount': 24900, 'name': 'Senior Course', 'display_price': '249.00'}
@@ -209,8 +243,8 @@ def create_checkout_session(request):
                     'plan_tier': course_tier,
                     'user_id': request.user.id if request.user.is_authenticated else None,
                 },
-                success_url="https://course-hsuk.onrender.com/success?session_id={CHECKOUT_SESSION_ID}",
-                cancel_url="https://course-hsuk.onrender.com/sub",
+                success_url="http://127.0.0.1:8000/success?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url="http://127.0.0.1:8000/sub",
             )
 
             return redirect(session.url)
@@ -222,7 +256,6 @@ def create_checkout_session(request):
 def success(request):
     plan_name = request.session.get('plan_name', 'Beginner Course')
     amount = request.session.get('amount', '49.00')
-    plan_tier = request.session.get('plan_tier', 'beginner')
 
     context = {
         'plan_name': plan_name,

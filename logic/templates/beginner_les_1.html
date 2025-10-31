@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Fundamentals - Lesson</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #000000 0%, #0a0e27 35%, #1a1a3e 65%, #2d1b4e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 50px;
+            color: #c4b5fd;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .back-button:hover {
+            background: rgba(20, 15, 35, 0.9);
+            border-color: rgba(124, 58, 237, 0.7);
+            transform: translateX(-5px);
+            box-shadow: 0 6px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .lesson-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-label {
+            font-size: 0.9rem;
+            color: rgba(167, 139, 250, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .lesson-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e9d5ff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-meta {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            color: rgba(196, 181, 253, 0.8);
+        }
+
+        .meta-item span {
+            color: #a78bfa;
+            font-weight: 600;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .main-content {
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .lesson-content h2 {
+            font-size: 2rem;
+            color: #e9d5ff;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.4);
+        }
+
+        .lesson-content h2:first-child {
+            margin-top: 0;
+        }
+
+        .lesson-content h3 {
+            font-size: 1.5rem;
+            color: #c4b5fd;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content p {
+            font-size: 1.05rem;
+            color: rgba(196, 181, 253, 0.8);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .lesson-content li {
+            font-size: 1.05rem;
+            color: rgba(196, 181, 253, 0.8);
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .lesson-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #6ee7b7;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            color: #6ee7b7;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .tip-box {
+            background: rgba(124, 58, 237, 0.15);
+            border: 2px solid rgba(124, 58, 237, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .tip-box h4 {
+            font-size: 1.2rem;
+            color: #a78bfa;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tip-box p {
+            margin-bottom: 0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.15);
+            border: 2px solid rgba(239, 68, 68, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .warning-box h4 {
+            font-size: 1.2rem;
+            color: #fca5a5;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-card {
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e9d5ff;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.4);
+        }
+
+        .sidebar-item {
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-radius: 10px;
+            color: rgba(196, 181, 253, 0.7);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-item:hover {
+            background: rgba(124, 58, 237, 0.2);
+            color: #e9d5ff;
+        }
+
+        .sidebar-item.active {
+            background: rgba(124, 58, 237, 0.3);
+            color: #e9d5ff;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(124, 58, 237, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7c3aed, #a78bfa);
+            width: 10%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .next-lesson-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: rgba(124, 58, 237, 0.3);
+            border: 2px solid rgba(124, 58, 237, 0.6);
+            border-radius: 15px;
+            color: #e9d5ff;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+        }
+
+        .next-lesson-btn:hover {
+            background: rgba(124, 58, 237, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .resources-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resources-list li {
+            margin-bottom: 0.8rem;
+        }
+
+        .resources-list a {
+            color: #a78bfa;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .resources-list a:hover {
+            color: #e9d5ff;
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lesson-title {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 1.5rem;
+            }
+
+            .lesson-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/dash" class="back-button">
+            ← Back to Course
+        </a>
+
+        <div class="header">
+            <div class="lesson-icon">📚</div>
+            <div class="lesson-label">Lesson 01</div>
+            <h1 class="lesson-title">HTML Fundamentals</h1>
+            <div class="lesson-meta">
+                <div class="meta-item">
+                    <span>📖</span> Reading Time: 15 min
+                </div>
+                <div class="meta-item">
+                    <span>📊</span> Beginner
+                </div>
+                <div class="meta-item">
+                    <span>👨‍🏫</span> Solara
+                </div>
+            </div>
+        </div>
+
+        <div class="content-grid">
+            <div class="main-content">
+                <div class="lesson-content">
+                    <h2>📖 Introduction</h2>
+                    <p>
+                        Welcome to HTML Fundamentals! In this lesson, you'll learn the building blocks of every website on the internet. HTML (HyperText Markup Language) is the foundation of web development, and mastering it is your first step toward becoming a web developer.
+                    </p>
+                    <p>
+                        Think of HTML as the skeleton of a website - it provides the structure and organization that everything else builds upon. Without HTML, we wouldn't have web pages as we know them today.
+                    </p>
+
+                    <h2>🎯 What You'll Learn</h2>
+                    <ul>
+                        <li>Understanding HTML structure and syntax</li>
+                        <li>Common HTML tags and their purposes</li>
+                        <li>Creating semantic markup for better accessibility</li>
+                        <li>Building your first HTML page from scratch</li>
+                        <li>Best practices for writing clean, maintainable HTML</li>
+                        <li>How browsers interpret HTML documents</li>
+                    </ul>
+
+                    <h2>💻 What is HTML?</h2>
+                    <p>
+                        HTML stands for HyperText Markup Language. It's not a programming language - it's a markup language that tells browsers how to structure and display content. Every website you visit is built with HTML at its core.
+                    </p>
+                    <p>
+                        HTML uses a system of tags to structure content. Tags are keywords surrounded by angle brackets, and most come in pairs with an opening and closing tag. The content goes between these tags.
+                    </p>
+
+                    <h3>Basic HTML Structure</h3>
+                    <div class="code-block">
+                        <code>
+&lt;!DOCTYPE html&gt;<br>
+&lt;html lang="en"&gt;<br>
+&nbsp;&nbsp;&lt;head&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;meta charset="UTF-8"&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;My First Page&lt;/title&gt;<br>
+&nbsp;&nbsp;&lt;/head&gt;<br>
+&nbsp;&nbsp;&lt;body&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1&gt;Hello World!&lt;/h1&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;This is my first HTML page.&lt;/p&gt;<br>
+&nbsp;&nbsp;&lt;/body&gt;<br>
+&lt;/html&gt;
+                        </code>
+                    </div>
+
+                    <h3>Breaking Down the Structure</h3>
+                    <p>
+                        <strong>&lt;!DOCTYPE html&gt;</strong> - This declaration tells the browser that this is an HTML5 document. It must be the very first thing in your HTML file.
+                    </p>
+                    <p>
+                        <strong>&lt;html&gt;</strong> - This is the root element that contains all other HTML elements. The lang attribute specifies the language of the document.
+                    </p>
+                    <p>
+                        <strong>&lt;head&gt;</strong> - Contains metadata about the document like the title, character encoding, and links to stylesheets. This content isn't visible on the page.
+                    </p>
+                    <p>
+                        <strong>&lt;body&gt;</strong> - Contains all the visible content of your web page - text, images, links, and more.
+                    </p>
+
+                    <div class="tip-box">
+                        <h4>💡 Pro Tip</h4>
+                        <p>
+                            Always use semantic HTML tags like &lt;header&gt;, &lt;nav&gt;, &lt;main&gt;, &lt;article&gt;, and &lt;footer&gt; instead of generic &lt;div&gt; tags. This makes your code more accessible, improves SEO, and makes it easier for other developers to understand your structure!
+                        </p>
+                    </div>
+
+                    <h2>🔤 Common HTML Tags</h2>
+
+                    <h3>Headings</h3>
+                    <p>
+                        HTML provides six levels of headings, from &lt;h1&gt; to &lt;h6&gt;. Use &lt;h1&gt; for your main page title and use the others in hierarchical order.
+                    </p>
+                    <div class="code-block">
+                        <code>
+&lt;h1&gt;Main Title&lt;/h1&gt;<br>
+&lt;h2&gt;Subheading&lt;/h2&gt;<br>
+&lt;h3&gt;Sub-subheading&lt;/h3&gt;
+                        </code>
+                    </div>
+
+                    <h3>Paragraphs and Text</h3>
+                    <p>
+                        The &lt;p&gt; tag defines a paragraph. Use &lt;strong&gt; for important text (bold) and &lt;em&gt; for emphasized text (italic).
+                    </p>
+                    <div class="code-block">
+                        <code>
+&lt;p&gt;This is a paragraph with &lt;strong&gt;bold&lt;/strong&gt; and &lt;em&gt;italic&lt;/em&gt; text.&lt;/p&gt;
+                        </code>
+                    </div>
+
+                    <h3>Links</h3>
+                    <p>
+                        The &lt;a&gt; tag creates hyperlinks. The href attribute specifies where the link goes.
+                    </p>
+                    <div class="code-block">
+                        <code>
+&lt;a href="https://example.com"&gt;Visit Example&lt;/a&gt;
+                        </code>
+                    </div>
+
+                    <h3>Images</h3>
+                    <p>
+                        The &lt;img&gt; tag embeds images. It's a self-closing tag and requires the src attribute for the image source and alt for accessibility.
+                    </p>
+                    <div class="code-block">
+                        <code>
+&lt;img src="photo.jpg" alt="Description of the image"&gt;
+                        </code>
+                    </div>
+
+                    <div class="warning-box">
+                        <h4>⚠️ Important</h4>
+                        <p>
+                            Always include an alt attribute on images! This is crucial for accessibility - screen readers use this text to describe images to visually impaired users.
+                        </p>
+                    </div>
+
+                    <h2>📝 Lists</h2>
+                    <p>
+                        HTML supports two types of lists: unordered (bullet points) and ordered (numbered).
+                    </p>
+
+                    <h3>Unordered List</h3>
+                    <div class="code-block">
+                        <code>
+&lt;ul&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;First item&lt;/li&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;Second item&lt;/li&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;Third item&lt;/li&gt;<br>
+&lt;/ul&gt;
+                        </code>
+                    </div>
+
+                    <h3>Ordered List</h3>
+                    <div class="code-block">
+                        <code>
+&lt;ol&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;Step one&lt;/li&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;Step two&lt;/li&gt;<br>
+&nbsp;&nbsp;&lt;li&gt;Step three&lt;/li&gt;<br>
+&lt;/ol&gt;
+                        </code>
+                    </div>
+
+                    <h2>🔥 Practice Exercise</h2>
+                    <p>
+                        Try creating a simple HTML page about yourself. Include:
+                    </p>
+                    <ul>
+                        <li>A main heading with your name</li>
+                        <li>A paragraph introducing yourself</li>
+                        <li>An unordered list of your hobbies</li>
+                        <li>An ordered list of your top 3 favorite movies</li>
+                        <li>A link to your favorite website</li>
+                    </ul>
+                    <p>
+                        Don't worry about styling yet - we'll cover CSS in the next lesson. For now, focus on getting the structure right and using the appropriate HTML tags.
+                    </p>
+
+                    <div class="tip-box">
+                        <h4>💡 Challenge Yourself</h4>
+                        <p>
+                            Once you've completed the basic exercise, try adding semantic HTML elements like &lt;header&gt;, &lt;main&gt;, and &lt;footer&gt; to better structure your page. This is what professional developers do!
+                        </p>
+                    </div>
+
+                    <h2>🎓 Key Takeaways</h2>
+                    <ul>
+                        <li>HTML is the foundation of all web pages</li>
+                        <li>Tags come in pairs (opening and closing) with content in between</li>
+                        <li>Always use semantic HTML for better accessibility and SEO</li>
+                        <li>The basic structure includes DOCTYPE, html, head, and body tags</li>
+                        <li>Common tags include headings, paragraphs, links, images, and lists</li>
+                        <li>Always include alt text on images for accessibility</li>
+                    </ul>
+
+                    <h2>📚 What's Next?</h2>
+                    <p>
+                        Now that you understand HTML fundamentals, you're ready to move on to CSS! In the next lesson, we'll learn how to style your HTML and make it look beautiful. Get excited - that's where things start to get really fun!
+                    </p>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <div class="sidebar-title">Your Progress</div>
+                    <div class="sidebar-item active">📚 Introduction</div>
+                    <div class="sidebar-item">🎯 What You'll Learn</div>
+                    <div class="sidebar-item">💻 HTML Basics</div>
+                    <div class="sidebar-item">🔤 Common Tags</div>
+                    <div class="sidebar-item">📝 Lists</div>
+                    <div class="sidebar-item">🔥 Practice</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="sidebar-card">
+                    <div class="sidebar-title">Resources</div>
+                    <ul class="resources-list">
+                        <li><a href="#">📄 HTML Cheat Sheet</a></li>
+                        <li><a href="#">🎮 Interactive Practice</a></li>
+                        <li><a href="#">📖 MDN Documentation</a></li>
+                        <li><a href="#">💬 Join Discussion</a></li>
+                    </ul>
+                    <a href="/beginner/les/2" class="next-lesson-btn">
+                        Next Lesson: CSS Basics →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

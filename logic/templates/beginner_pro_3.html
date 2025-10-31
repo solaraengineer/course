@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Website - Project</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom right, #000000 0%, #0a0e27 35%, #1a1a3e 65%, #2d1b4e 100%);
+            min-height: 100vh;
+            color: #fff;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .back-button, .summary-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 50px;
+            color: #c4b5fd;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover, .summary-button:hover {
+            background: rgba(20, 15, 35, 0.9);
+            border-color: rgba(124, 58, 237, 0.7);
+            box-shadow: 0 6px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .back-button:hover {
+            transform: translateX(-5px);
+        }
+
+        .summary-button {
+            background: rgba(124, 58, 237, 0.3);
+            border-color: rgba(124, 58, 237, 0.6);
+        }
+
+        .summary-button:hover {
+            background: rgba(124, 58, 237, 0.5);
+            transform: scale(1.05);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-label {
+            font-size: 0.9rem;
+            color: rgba(167, 139, 250, 0.7);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e9d5ff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .project-meta {
+            font-size: 1.1rem;
+            color: rgba(196, 181, 253, 0.8);
+        }
+
+        .project-meta strong {
+            color: #a78bfa;
+        }
+
+        .videos-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e9d5ff;
+            margin-bottom: 2rem;
+            padding-left: 1rem;
+            border-left: 4px solid #7c3aed;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .video-card {
+            background: rgba(15, 10, 25, 0.7);
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(124, 58, 237, 0.7);
+            box-shadow: 0 15px 50px rgba(124, 58, 237, 0.4);
+        }
+
+        .video-embed {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.4);
+        }
+
+        .video-info {
+            padding: 1.5rem;
+        }
+
+        .video-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #e9d5ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .video-description {
+            font-size: 0.95rem;
+            color: rgba(196, 181, 253, 0.6);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .video-duration {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #a78bfa;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .project-title {
+                font-size: 2rem;
+            }
+
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="nav-buttons">
+            <a href="/dash" class="back-button">
+                ← Back to Dashboard
+            </a>
+            <a href="/beginner/sum/3" class="summary-button">
+                📋 View Summary
+            </a>
+        </div>
+
+        <div class="header">
+            <div class="project-label">Project 01</div>
+            <h1 class="project-title">Portfolio Website</h1>
+            <div class="project-meta">Made by: <strong>Solara</strong></div>
+        </div>
+
+        <div class="videos-section">
+            <h2 class="section-title">Video Lessons</h2>
+            <div class="videos-grid">
+                <div class="video-card">
+                    <iframe class="video-embed"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                            allowfullscreen>
+                    </iframe>
+                    <div class="video-info">
+                        <div class="video-title">Part 1: Project Setup & Planning</div>
+                        <div class="video-description">Learn how to set up your development environment and plan out your portfolio structure</div>
+                        <span class="video-duration">⏱️ 15:30</span>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <iframe class="video-embed"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                            allowfullscreen>
+                    </iframe>
+                    <div class="video-info">
+                        <div class="video-title">Part 2: HTML Structure</div>
+                        <div class="video-description">Build the foundation of your portfolio with semantic HTML elements</div>
+                        <span class="video-duration">⏱️ 22:45</span>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <iframe class="video-embed"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                            allowfullscreen>
+                    </iframe>
+                    <div class="video-info">
+                        <div class="video-title">Part 3: Styling with CSS</div>
+                        <div class="video-description">Apply beautiful styles and create a stunning visual design</div>
+                        <span class="video-duration">⏱️ 30:15</span>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <iframe class="video-embed"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                            allowfullscreen>
+                    </iframe>
+                    <div class="video-info">
+                        <div class="video-title">Part 4: Making it Responsive</div>
+                        <div class="video-description">Ensure your portfolio looks great on all screen sizes</div>
+                        <span class="video-duration">⏱️ 18:20</span>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <iframe class="video-embed"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                            allowfullscreen>
+                    </iframe>
+                    <div class="video-info">
+                        <div class="video-title">Part 5: Adding Interactivity</div>
+                        <div class="video-description">Use JavaScript to add smooth animations and interactive elements</div>
+                        <span class="video-duration">⏱️ 25:00</span>
+                    </div>
+                </div>
+
+                <div class="video-card">
+                    <iframe class="video-embed"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                            allowfullscreen>
+                    </iframe>
+                    <div class="video-info">
+                        <div class="video-title">Part 6: Deployment & Hosting</div>
+                        <div class="video-description">Learn how to deploy your portfolio online and share it with the world</div>
+                        <span class="video-duration">⏱️ 12:30</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
