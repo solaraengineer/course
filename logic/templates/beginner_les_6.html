@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexbox - Lesson</title>
+    <title>JavaScript Introduction - Lesson</title>
     <style>
         * {
             margin: 0;
@@ -383,10 +383,10 @@
         <div class="header">
             <div class="lesson-icon">⚡</div>
             <div class="lesson-label">Lesson 03</div>
-            <h1 class="lesson-title">Flexbox layout</h1>
+            <h1 class="lesson-title">JavaScript Introduction</h1>
             <div class="lesson-meta">
                 <div class="meta-item">
-                    <span>📖</span> Reading Time: 20 min
+                    <span>📖</span> Reading Time: 25 min
                 </div>
                 <div class="meta-item">
                     <span>📊</span> Beginner
@@ -402,63 +402,66 @@
                 <div class="lesson-content">
                     <h2>📖 Introduction</h2>
                     <p>
-                        Welcome to the Flexbox class its CSS but now we will learn how to align and center things on our page! It might look confusing at first but it really wont be.
+                        Welcome to the most exciting part of web development but also one of the hardest at begninng..... JavaScript! While HTML provides structure and CSS provides style, JavaScript brings your websites to life. It's what makes pages interactive, dynamic, and responsive to user actions.
                     </p>
                     <p>
-                       Flexbox is used in all frontend. Without Flexbox you wont get Far at all its super easy tho just a couple commands rules and your gonna be good to go! Lets begin
+                        Unlike HTML/CSS which describe how things look JavaScript is a real programming language that can make decisions run logic, and control behavior. which means you'll be writing actual code that makes decisions, processes data, and responds to events. This is where things get really powerful but also hard dont except this to be easy
                     </p>
 
                     <h2>🎯 What You'll Learn</h2>
                     <ul>
-                        <li>What is Flexbox </li>
-                        <li>How to use flexbox</li>
-                        <li>When to use flexbox</li>
-                        <li>Why flexbox is amazing for frontend</li>
-                        <li>How to make most out of flexbox</li>
+                        <li>What JavaScript is and why it's essential</li>
+                        <li>Variables and data types</li>
+                        <li>Basic operators and expressions</li>
+                        <li>Functions and how to use them</li>
+                        <li>How to add JavaScript to your web pages</li>
+                        <li>Writing your first interactive script</li>
                     </ul>
 
-                    <h2>💻 What is Flexbox?</h2>
+                    <h2>💻 What is JavaScript?</h2>
                     <p>
-                        Flexbox (short for Flexible Box) is a powerful CSS layout system.  It helps you align, space, and arrange items in a container  even when their sizes change. Instead of floating or manually calculating widths, Flexbox does it for you.
+                        JavaScript (JS) is a programming language that runs in web browsers It allows you to create dynamic content, control multimedia, animate images, handle user interactions, validate forms, and much more. Every time you see something move, update, or respond on a webpage that's JavaScript at work!
                     </p>
                     <p>
-                        Flexbox is a core function for alinging things on the page. There is more like grids but that is another lesson on this one we just focus on simple but yet super effective alinging
+                        JavaScript is one of the three core technologies of the web, alongside HTML and CSS. It's also incredibly versatile  you can use it for web development, mobile apps, server  side programming, and even game development.
                     </p>
                     <p>
-                        Flexbox allows us to center things horizontally and vertically allowing us to put items anywhere we want practically. it adapts to screen size without extra media queries (later topic)
+                        Javascript can also do backend coding by using frameworks like node.js and express.js They are incredible for what they are!.. but i will teach django here no backend javascripting sadly
                     </p>
-                    <p>Since Flexbox allows us to align items and divs easier we will have WAYY simplier CSS and more responsive layouts.</p>
+                    <p>Since javascript runs in browser u can check javascript logs and errors in browser! How? just open ur browser. right click inspect and go to console log!</p>
 
 
                     <div class="tip-box">
                         <h4>💡 Fun Fact</h4>
                         <p>
-                          Flexbox was originally called “Box Alignment Module” and was designed to help web devs avoid “float hell”  a messy layout trick from the old days where youd float elements left/right just to line them up. Flexbox came in and said: nah, I got you.
+                            JavaScript was created in just 10 days in 1995 Despite its rushed creation it has become one of the most popular programming languages in the world. Today JavaScript powers billions of websites and applications.
                         </p>
                     </div>
 
-                    <h2>🔗 Adding Flexbox to HTML</h2>
+                    <h2>🔗 Adding JavaScript to HTML</h2>
                     <p>
                         Quick breakdown of all i use below
                         <br>
                         <br>
-                        1. We will use aling-items: center; justify-content: center; and flex-direction: collumn, row; those will allow us to center and put items in diffrent places on the HTML page.
+                        1.console.log('Hello world') its a python version of print("hello world") it Outputs text in the browsers console similar to print() in Python
                         <br>
                         <br>
-                        2. Display: flex; is neccesary for those to work. without em you wont see nothing working.
+                        2.alert("hello") works only on web it makes a alret come up usually used with onclick for buttons.<p>
+                        3.onclick is an event attribute that lets you run JavaScript when an element is clicked s commonly used for buttons and links, and can trigger alerts or custom functions when clicked.
                     <br>
                     <br>
+                        Similar to CSS, there are multiple ways to add JavaScript to your pages:
                         <br>
 
                     </p>
 
-                    <h3>1. Inline CSS</h3>
+                    <h3>1. Inline JavaScript</h3>
                     <p>
-                        Directly in HTML elements (not recommended)
+                        Directly in HTML elements (not recommended).
                     </p>
                     <div class="code-block">
                         <code>
-&lt;align-items: center;"&gt;Hello world!&lt;/button&gt;
+&lt;button onclick="alert('Hello!')"&gt;Click Me&lt;/button&gt;
                         </code>
                     </div>
                     <p>This kinda same story as with CSS its easiest with external .js file</p>

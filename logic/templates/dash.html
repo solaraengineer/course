@@ -5,7 +5,578 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
-    <link rel="stylesheet" href="{% static 'dash.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Subtle animated gradient overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(15, 10, 25, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-brand {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(196, 181, 253, 0.7);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #7c3aed, #a78bfa);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e9d5ff;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.6rem 1.2rem;
+            background: rgba(124, 58, 237, 0.2);
+            border: 1px solid rgba(124, 58, 237, 0.4);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-user:hover {
+            background: rgba(124, 58, 237, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .nav-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #a78bfa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.5);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(124, 58, 237, 0.5);
+            }
+            50% {
+                box-shadow: 0 4px 25px rgba(124, 58, 237, 0.8);
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Messages */
+        .messages {
+            margin-bottom: 2rem;
+        }
+
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: rgba(16, 185, 129, 0.5);
+            color: #6ee7b7;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+        }
+
+        /* Welcome Header */
+        .welcome-header {
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes gradientPulse {
+            0%, 100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.2);
+            }
+        }
+
+        .welcome-header p {
+            font-size: 1.2rem;
+            color: rgba(196, 181, 253, 0.6);
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-card {
+            background: rgba(15, 10, 25, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: cardFadeIn 0.5s ease backwards;
+        }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-card:nth-child(1) { animation-delay: 0.1s; }
+        .info-card:nth-child(2) { animation-delay: 0.2s; }
+        .info-card:nth-child(3) { animation-delay: 0.3s; }
+        .info-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .info-card:hover::before {
+            opacity: 1;
+        }
+
+        .info-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(124, 58, 237, 0.6);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.3);
+        }
+
+        .info-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .info-card:hover .info-icon {
+            transform: scale(1.1);
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(167, 139, 250, 0.7);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e9d5ff;
+        }
+
+        .status-active {
+            color: #6ee7b7;
+            animation: statusGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes statusGlow {
+            0%, 100% {
+                text-shadow: 0 0 5px rgba(110, 231, 183, 0.5);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(110, 231, 183, 0.8);
+            }
+        }
+
+        /* Account Type Card */
+        .info-type {
+            margin-bottom: 2rem;
+            animation: cardFadeIn 0.5s ease 0.5s backwards;
+        }
+
+        .account-type-card {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2) 0%, rgba(167, 139, 250, 0.1) 100%);
+            border: 2px solid rgba(124, 58, 237, 0.5);
+        }
+
+        .upgrade-hint, a {
+            letter-spacing: 1.2px;
+            text-decoration: none;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #a78bfa;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .account-type-card:hover .upgrade-hint {
+            transform: translateX(5px);
+            color: #e9d5ff;
+        }
+
+        /* Footer Actions */
+        .footer-actions {
+            margin-top: 2rem;
+            animation: cardFadeIn 0.5s ease 0.6s backwards;
+        }
+
+        .terms-button {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem 2rem;
+            background: rgba(15, 10, 25, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .terms-icon {
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .terms-text {
+            flex: 1;
+            font-weight: 600;
+            color: #c4b5fd;
+            position: relative;
+            z-index: 1;
+        }
+
+        .terms-arrow {
+            font-size: 1.5rem;
+            color: #a78bfa;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .terms-button:hover .terms-arrow {
+            transform: translateX(5px);
+        }
+
+        /* Pricing Sidebar */
+        .pricing-sidebar {
+            position: sticky;
+            top: 6rem;
+            height: fit-content;
+            animation: cardFadeIn 0.5s ease 0.4s backwards;
+        }
+
+        .sidebar-header {
+            background: rgba(15, 10, 25, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .sidebar-header h3 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #e9d5ff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .sidebar-header p {
+            color: rgba(196, 181, 253, 0.6);
+        }
+
+        .pricing-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pricing-links a {
+            display: block;
+            padding: 1.2rem 1.5rem;
+            background: rgba(15, 10, 25, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .pricing-links a:hover::before {
+            left: 100%;
+        }
+
+        .pricing-links a:hover {
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
+        }
+
+        .tier-free {
+            color: #94a3b8;
+            border-color: rgba(148, 163, 184, 0.3);
+        }
+
+        .tier-free:hover {
+            background: rgba(148, 163, 184, 0.1);
+            border-color: rgba(148, 163, 184, 0.6);
+            box-shadow: 0 8px 25px rgba(148, 163, 184, 0.3);
+        }
+
+        .tier-beginner {
+            color: #6ee7b7;
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .tier-beginner:hover {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: rgba(16, 185, 129, 0.6);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .tier-intermediate {
+            color: #a78bfa;
+            border-color: rgba(124, 58, 237, 0.3);
+        }
+
+        .tier-intermediate:hover {
+            background: rgba(124, 58, 237, 0.1);
+            border-color: rgba(124, 58, 237, 0.6);
+        }
+
+        .tier-advanced {
+            color: #fbbf24;
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+
+        .tier-advanced:hover {
+            background: rgba(251, 191, 36, 0.1);
+            border-color: rgba(251, 191, 36, 0.6);
+            box-shadow: 0 8px 25px rgba(251, 191, 36, 0.3);
+        }
+
+        .tier-senior {
+            color: #f87171;
+            border-color: rgba(239, 68, 68, 0.3);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(124, 58, 237, 0.1));
+        }
+
+        .tier-senior:hover {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(124, 58, 237, 0.2));
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-header h1 {
+                font-size: 2rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+.quote-card {
+    grid-column: span 2;
+}
+    </style>
 </head>
 <body>
     <!-- Navbar -->
@@ -16,10 +587,10 @@
                 <li><a href="/dash">Dashboard</a></li>
                 <li><a href="/profile">Profile</a></li>
                 <li><a href="/settings">Settings</a></li>
-                <li><a href="/Sub">Subscriptions</a></li>
+                <li><a href="/sub">Subscriptions</a></li>
             </ul>
             <div class="nav-user">
-                <div class="nav-avatar">JD</div>
+                <div class="nav-avatar">{{ user.username|slice:":2"|upper }}</div>
                 <span>{{ user.username }}</span>
             </div>
         </div>
@@ -27,68 +598,77 @@
 
     <div class="container">
         <div class="main-content">
-        <!-- Messages -->
-        {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
+            <!-- Messages -->
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+            {% endif %}
+
+            <!-- Welcome Header -->
+            <div class="welcome-header">
+                <h1>Welcome back, <span class="highlight">{{ user.username }}</span>! 👋</h1>
+                <p>Here's what's happening with your account today.</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <!-- Stats Grid -->
+<div class="info-grid">
+    <div class="info-card">
+        <div class="info-icon">👤</div>
+        <div class="info-label">Username</div>
+        <div class="info-value">{{ user.username }}</div>
+    </div>
+
+    <div class="info-card">
+        <div class="info-icon">📧</div>
+        <div class="info-label">Email</div>
+        <div class="info-value">{{ user.email }}</div>
+    </div>
+
+    <div class="info-card">
+        <div class="info-icon">📅</div>
+        <div class="info-label">Member Since</div>
+        <div class="info-value">{{ user.date_joined|date:"M d, Y" }}</div>
+    </div>
+
+    <div class="info-card">
+        <div class="info-icon">🔑</div>
+        <div class="info-label">Account Status</div>
+        <div class="info-value status-active">{{ user.is_active|yesno:"Active,Inactive" }}</div>
+    </div>
+
+   <div class="quote-card">
+    <div class="info-card">
+        <div class="info-icon">📖</div>
+        <div class="info-label">Quote of the day.</div>
+        <div class="info-value" id="quote"></div>
         </div>
-        {% endif %}
+    </div>
+</div>
 
-        <!-- Welcome Header -->
-        <div class="welcome-header">
-            <h1>Welcome back, <span class="highlight">{{ user.username }}</span>! 👋</h1>
-            <p>Here's what's happening with your account today.</p>
-        </div>
-
-        <!-- Stats Grid -->
-        <div class="info-grid">
-            <div class="info-card">
-                <div class="info-icon">👤</div>
-                <div class="info-label">Username</div>
-                <div class="info-value">{{ user.username }}</div>
+            <!-- Account Type Card -->
+            <div class="info-type">
+                <div class="info-card account-type-card">
+                    <div class="info-icon">💳</div>
+                    <div class="info-label">Current Plan</div>
+                    <div class="info-value">Beginner</div>
+                    <div class="upgrade-hint"> <a href="/sub">Click to upgrade</a></div>
+                </div>
             </div>
 
-            <div class="info-card">
-                <div class="info-icon">📧</div>
-                <div class="info-label">Email</div>
-                <div class="info-value">{{ user.email }}</div>
+            <!-- Terms Button -->
+            <div class="footer-actions">
+                <a href="/terms" class="terms-button">
+                    <span class="terms-icon">📜</span>
+                    <span class="terms-text">Terms & Conditions</span>
+                    <span class="terms-arrow">→</span>
+                </a>
             </div>
-
-            <div class="info-card">
-                <div class="info-icon">📅</div>
-                <div class="info-label">Member Since</div>
-                <div class="info-value">{{ user.date_joined|date:"M d, Y" }}</div>
-            </div>
-
-            <div class="info-card">
-                <div class="info-icon">🔑</div>
-                <div class="info-label">Account Status</div>
-                <div class="info-value status-active">{{ user.is_active|yesno:"Active,Inactive" }}</div>
-            </div>
-        </div>
-
-        <!-- Account Type Card -->
-        <div class="info-type">
-            <div class="info-card account-type-card">
-                <div class="info-icon">💳</div>
-                <div class="info-label">Current Plan</div>
-                <div class="info-value">{{ user.account_type }}</div>
-                <div class="upgrade-hint">Upgrade for more features →</div>
-            </div>
-        </div>
-
-        <!-- Terms Button -->
-        <div class="footer-actions">
-            <a href="/terms" class="terms-button">
-                <span class="terms-icon">📜</span>
-                <span class="terms-text">Terms & Conditions</span>
-                <span class="terms-arrow">→</span>
-            </a>
-        </div>
         </div>
 
         <!-- Pricing Sidebar -->
@@ -98,26 +678,30 @@
                 <p>Choose your tier</p>
             </div>
             <ul class="pricing-links">
-                <li><a href="/preview" class="tier-free">Free</a></li>
-                <li><a href="/beginner" class="tier-beginner">Beginner</a></li>
-                <li><a href="/inter" class="tier-intermediate">Intermediate</a></li>
-                <li><a href="/adv" class="tier-advanced">Advanced</a></li>
-                <li><a href="/sen" class="tier-senior">Senior</a></li>
+                <li><a href="/preview" class="tier-free">🆓 Free Tier</a></li>
+                <li><a href="/beginner" class="tier-beginner">🌱 Beginner</a></li>
+                <li><a href="/inter" class="tier-intermediate">⚡ Intermediate</a></li>
+                <li><a href="/adv" class="tier-advanced">🔥 Advanced</a></li>
+                <li><a href="/sen" class="tier-senior">👑 Senior</a></li>
             </ul>
         </div>
     </div>
 
     <script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
+
+        const quote = document.getElementById('quote')
+
+        quotes = ['If you give up dont come back here.!',
+            'Well Well welcome back go to wherver u finished and goodjob fr',
+            'Btw we have discord (join below..)',
+            'If u have any cool projects or bugs tell us at discord',
+            'Uhm keep going good work',
+            'Never BACK DOWN NEVER GIVE UP',
+            'im writing this whilst watching "How to beat EVERY trap in "The cabin in the woods""',
+            ]
+            RandomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        quote.textContent = RandomQuote
+
 
         // Auto-hide messages
         setTimeout(() => {
@@ -129,27 +713,6 @@
                 setTimeout(() => msg.remove(), 500);
             });
         }, 5000);
-
-        // Dynamic avatar initials
-        const username = "{{ user.username }}";
-        if (username) {
-            const initials = username.substring(0, 2).toUpperCase();
-            document.querySelector('.nav-avatar').textContent = initials;
-        }
-
-        // Pricing sidebar animation on scroll
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const sidebar = document.querySelector('.pricing-sidebar');
-            const currentScroll = window.pageYOffset;
-
-            if (currentScroll > lastScroll) {
-                sidebar.style.opacity = '0.7';
-            } else {
-                sidebar.style.opacity = '1';
-            }
-            lastScroll = currentScroll;
-        });
     </script>
 </body>
 </html>

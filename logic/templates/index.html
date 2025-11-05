@@ -4,53 +4,583 @@
     {% load static %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login & Register</title>
-    <link rel="stylesheet" href="{% static 'css.css' %}">
+    <title>Login & Register - MyApp</title>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 25%, #16213e 50%, #0f3460 75%, #0a0a0a 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #fff;
+            overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        /* Animated gradient overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(124, 58, 237, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(167, 139, 250, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Floating orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #7c3aed, transparent);
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .orb2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, #a78bfa, transparent);
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, -100px) scale(1.1); }
+            50% { transform: translate(-100px, 100px) scale(0.9); }
+            75% { transform: translate(100px, 100px) scale(1.05); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form boxes */
+        .form-box, .login-box {
+            background: rgba(15, 10, 25, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 30px;
+            padding: 3rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-box::before, .login-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .form-box:hover::before, .login-box:hover::before {
+            opacity: 1;
+        }
+
+        .form-box:hover, .login-box:hover {
+            transform: translateY(-8px);
+            border-color: rgba(124, 58, 237, 0.5);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.25);
+        }
+
+        /* Headers */
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #e9d5ff 0%, #a78bfa 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+            position: relative;
+            z-index: 1;
+            animation: gradientFlow 4s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Form styling */
+        form {
+            position: relative;
+            z-index: 1;
+        }
+
+        form p {
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        form p:focus-within {
+            transform: translateX(5px);
+        }
+
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(196, 181, 253, 0.8);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        form p:focus-within label {
+            color: #a78bfa;
+            text-shadow: 0 0 8px rgba(167, 139, 250, 0.4);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(15, 10, 25, 0.8);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 15px;
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+            background: rgba(15, 10, 25, 0.9);
+            transform: translateY(-2px);
+        }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        input[type="password"]::placeholder {
+            color: rgba(196, 181, 253, 0.4);
+        }
+
+        /* Checkbox styling */
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            cursor: pointer;
+            text-transform: none;
+            font-weight: 500;
+            color: rgba(196, 181, 253, 0.7);
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-label:hover {
+            color: #a78bfa;
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: #7c3aed;
+        }
+
+        /* Toggle password styling */
+        #togglePassword {
+            color: rgba(196, 181, 253, 0.7);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        #togglePassword:hover {
+            color: #a78bfa;
+            transform: translateX(3px);
+        }
+
+        /* reCAPTCHA styling */
+        .g-recaptcha {
+            margin-bottom: 1.5rem;
+            transform: scale(0.95);
+            transform-origin: 0 0;
+        }
+
+        /* Buttons */
+        button[type="submit"] {
+            width: 100%;
+            padding: 1.2rem;
+            background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+            background-size: 200% 200%;
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            animation: buttonPulse 4s ease infinite;
+        }
+
+        @keyframes buttonPulse {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        button[type="submit"]::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        button[type="submit"]:hover::before {
+            left: 100%;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(124, 58, 237, 0.4);
+        }
+
+        button[type="submit"]:active {
+            transform: translateY(-1px);
+        }
+
+        /* Messages */
+        .messages, p.error, p.success {
+            margin-top: 1rem;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 500;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        p.error, .errorlist {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: #fca5a5;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            margin-top: 0.5rem;
+            list-style: none;
+        }
+
+        .errorlist li {
+            margin-bottom: 0.3rem;
+        }
+
+        p.success {
+            background: rgba(16, 185, 129, 0.2);
+            border: 1px solid rgba(16, 185, 129, 0.5);
+            color: #6ee7b7;
+        }
+
+        #dynamic-password-error {
+            transition: all 0.3s ease;
+        }
+
+        /* Terms link */
+        .terms-link {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(196, 181, 253, 0.6);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 1rem 2rem;
+            background: rgba(15, 10, 25, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .terms-link:hover {
+            color: #e9d5ff;
+            border-color: rgba(124, 58, 237, 0.6);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.3);
+            transform: translateX(-50%) translateY(-3px);
+        }
+
+        /* Logo/Brand */
+        .brand {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            z-index: 100;
+            animation: fadeIn 1s ease, brandGradient 4s ease infinite;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        @keyframes brandGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .brand:hover {
+            transform: scale(1.05);
+        }
+
+        /* Help text */
+        .helptext {
+            display: block;
+            font-size: 0.8rem;
+            color: rgba(196, 181, 253, 0.5);
+            margin-top: 0.3rem;
+            font-weight: 400;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .brand {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin-bottom: 2rem;
+                text-align: center;
+            }
+
+            .terms-link {
+                position: relative;
+                bottom: 0;
+                margin-top: 2rem;
+                display: inline-block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .form-box, .login-box {
+                padding: 2rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .g-recaptcha {
+                transform: scale(0.85);
+                color: black;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Floating orbs -->
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
 
-<div class="container">
-    <div class="form-box" id="register">
-        <h2>Register</h2>
-        <form id="registerForm" method="POST" action="/register">
-            {% csrf_token %}
-            {{ reg_form.as_p }}
-            <div class="g-recaptcha"
-              data-sitekey="6LeTq9crAAAAAIWCY7bxqcLayd5bBg9zqig27nwN"></div>
+    <!-- Brand -->
+    <div class="brand">MyApp</div>
 
-            <label for="terms" class="checkbox-label">
-                <input id="terms" type="checkbox" required />
-                I agree to the terms.
-            </label>
+    <div class="container">
+        <!-- Register Form -->
+        <div class="form-box" id="register">
+            <h2>Register</h2>
+            <form id="registerForm" method="POST" action="/register">
+                {% csrf_token %}
+                {{ reg_form.as_p }}
+                <span id="togglePassword" style="cursor:pointer;">Check password.</span>
+                <br>
+                <br>
+                <div class="g-recaptcha"
+                  data-sitekey="6LeTq9crAAAAAIWCY7bxqcLayd5bBg9zqig27nwN"></div>
 
-            <button type="submit" id="registerBtn">Register</button>
-        </form>
-        {% if messages %}
-    {% for message in messages %}
-        {% if 'register' in message.extra_tags %}
-            <p class="{{ message.tags }}">{{ message }}</p>
-        {% endif %}
-    {% endfor %}
-{% endif %}
+                <label for="terms" class="checkbox-label">
+                    <input name='terms' id="terms" type="checkbox" required />
+                    I agree to the terms and conditions
+                </label>
+
+                <button type="submit" id="registerBtn">Create Account</button>
+                <p id="dynamic-password-error" class="error" style="display: none;">Password must be at least 6 characters.</p>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if 'register' in message.extra_tags %}
+                        <p class="{{ message.tags }}">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <!-- Login Form -->
+        <div class="login-box" id="login">
+            <h2>Login</h2>
+            <form id="loginForm" method="POST" action="/login">
+                {% csrf_token %}
+                {{ login_form.as_p }}
+                <button type="submit">Sign In</button>
+            </form>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if 'login' in message.extra_tags %}
+                        <p class="{{ message.tags }}">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
 
-    <div class="login-box" id="login">
-        <h2>Login</h2>
-        <form id="loginForm" method="POST" action="/login">
-            {% csrf_token %}
-            {{ login_form.as_p }}
-            <button type="submit">Login</button>
-        </form>
-        {% if messages %}
-    {% for message in messages %}
-        {% if 'login' in message.extra_tags %}
-            <p class="{{ message.tags }}">{{ message }}</p>
-        {% endif %}
-    {% endfor %}
-{% endif %}
-    </div>
-</div>
-<a class="terms-link" href="https://fwaeh.cloud/terms" target="_blank">Read our terms here</a>
+    <a class="terms-link" href="https://fwaeh.cloud/terms" target="_blank">📜 Read our terms here</a>
+
+    <script>
+        // Smooth input animations
+        const inputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'translateX(5px)';
+                this.parentElement.style.transition = 'transform 0.3s ease';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'translateX(0)';
+            });
+        });
+
+        // Password strength indicator
+        const regPasswordInput = document.querySelector('#register input[name="password"]');
+        const dynamicError = document.getElementById('dynamic-password-error');
+
+        if (regPasswordInput && dynamicError) {
+            regPasswordInput.addEventListener('input', () => {
+                requestAnimationFrame(() => {
+                    const length = regPasswordInput.value.length;
+
+                    if (length > 0 && length < 6) {
+                        dynamicError.textContent = 'Password must be at least 6 characters.';
+                        dynamicError.style.color = '#fca5a5';
+                        dynamicError.style.background = 'rgba(239, 68, 68, 0.2)';
+                        dynamicError.style.border = '1px solid rgba(239, 68, 68, 0.5)';
+                        dynamicError.style.display = 'block';
+                    } else if (length >= 6) {
+                        dynamicError.textContent = '✅ Password looks good.';
+                        dynamicError.style.color = '#6ee7b7';
+                        dynamicError.style.background = 'rgba(16, 185, 129, 0.2)';
+                        dynamicError.style.border = '1px solid rgba(16, 185, 129, 0.5)';
+                        dynamicError.style.display = 'block';
+                    } else {
+                        dynamicError.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Toggle password visibility
+        const togglePassword = document.getElementById('togglePassword');
+        if (togglePassword) {
+            togglePassword.addEventListener('click', function() {
+                const passwordInput = document.querySelector('#register input[name="password"]');
+                if (passwordInput) {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.textContent = type === 'password' ? 'Check password.' : 'Hide password.';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

@@ -44,6 +44,7 @@ def register(request):
         if form.is_valid():
             cd = form.cleaned_data
             username, email, password = cd["username"], cd["email"], cd["password"]
+            terms = bool(request.POST.get('terms'))
 
             recaptcha_token = request.POST.get("g-recaptcha-response")
             verify_url = "https://www.google.com/recaptcha/api/siteverify"
@@ -67,6 +68,7 @@ def register(request):
             else:
                 user = User(username=username, email=email)
                 user.set_password(password)
+                user.terms = terms
                 user.save()
                 auth_login(request, user)
                 messages.success(request, "Account created successfully!", extra_tags="register")
@@ -158,6 +160,7 @@ def info(request):
         "username": user.username if user.is_authenticated else None,
         "email": user.email if user.is_authenticated else None,
         'account_type': user.account_type.name if user.is_authenticated else None,
+        'password': user.password if user.is_authenticated else None,
     })
 
 
