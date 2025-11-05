@@ -246,8 +246,8 @@ def create_checkout_session(request):
                     'plan_tier': course_tier,
                     'user_id': request.user.id if request.user.is_authenticated else None,
                 },
-                success_url="http://127.0.0.1:8000/success?session_id={CHECKOUT_SESSION_ID}",
-                cancel_url="http://127.0.0.1:8000/sub",
+                success_url="https://course-hsuk.onrender.com/success?session_id={CHECKOUT_SESSION_ID}",
+                cancel_url="https://course-hsuk.onrender.com/sub",
             )
 
             return redirect(session.url)
